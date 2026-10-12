@@ -34,9 +34,8 @@ async function main() {
 
   context.configure({ device, format, alphaMode: "opaque" });
 
-  // Exercise 05 complete: vertex data is uploaded from JavaScript.
-  // Exercise 05b: see lessons/05b-index-buffers.md.
-  // Use the supplied four-vertex data and index array, then create an index buffer.
+  // Completed through lesson 06: indexed geometry and transform uniforms.
+  // Next: lessons/07-animation.md (not started yet).
 
   const vertexData = new Float32Array([
     // x,    y,   r, g, b, a
@@ -59,23 +58,27 @@ async function main() {
     1,
     1, // 2: bottom right, blue
     0.6,
-    -0.6,
-    0,
-    0,
-    1,
-    1, // 3: bottom right, blue
-    0.6,
     0.6,
     1,
     1,
     1,
-    1, // 4: top right, white
-    -0.6,
-    0.6,
+    1, // 3: top right, white
+  ]);
+
+  const indexData = new Uint16Array([
+    0,
     1,
+    2, // First triangle
+    2,
+    3,
+    0, // Second triangle
+  ]);
+
+  const transformData = new Float32Array([
     0,
-    0,
-    1, // 5: top left, red
+    0, // offset x, y
+    1,
+    1, // scale x, y
   ]);
 
   const vertexBuffer = device.createBuffer({
@@ -85,9 +88,26 @@ async function main() {
 
   device.queue.writeBuffer(vertexBuffer, 0, vertexData);
 
-  // Exercise 05b: create and upload your index buffer here.
+  const indexBuffer = device.createBuffer({
+    size: indexData.byteLength,
+    usage: GPUBufferUsage.INDEX | GPUBufferUsage.COPY_DST,
+  });
+
+  device.queue.writeBuffer(indexBuffer, 0, indexData);
+
+  const uniformBuffer = device.createBuffer({
+    size: transformData.byteLength,
+    usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+  });
+
+  device.queue.writeBuffer(uniformBuffer, 0, transformData);
 
   const shaderCode = `
+  struct Transform {
+    offset: vec2f,
+    scale: vec2f,
+  }
+  @group(0) @binding(0) var<uniform> transform: Transform;
 
   struct VertexOutput {
     @builtin(position) position: vec4f,
@@ -99,9 +119,11 @@ async function main() {
     @location(0) point: vec2f,
     @location(1) color: vec4f
   ) -> VertexOutput {
-
     var output: VertexOutput;
-    output.position = vec4f(point.x, point.y, 0.0, 1.0);
+
+    let movedPoint = point * transform.scale + transform.offset;
+
+    output.position = vec4f(movedPoint.x, movedPoint.y, 0.0, 1.0);
     output.color = color;
 
     return output;
@@ -151,6 +173,11 @@ async function main() {
     },
   });
 
+  const uniformBindGroup = device.createBindGroup({
+    layout: renderPipeline.getBindGroupLayout(0),
+    entries: [{ binding: 0, resource: { buffer: uniformBuffer } }],
+  });
+
   // E2: Part 2
 
   const encoder = device.createCommandEncoder();
@@ -168,14 +195,17 @@ async function main() {
 
   const pass = encoder.beginRenderPass(renderPassDescriptor);
 
-  // Six vertex entries form two triangles using the selected pipeline.
+  // Six indices select four shared vertices to form two triangles.
 
   pass.setPipeline(renderPipeline);
 
   pass.setVertexBuffer(0, vertexBuffer);
 
-  // Exercise 05b: select the index buffer, then replace draw with drawIndexed.
-  pass.draw(6);
+  pass.setIndexBuffer(indexBuffer, "uint16");
+
+  pass.setBindGroup(0, uniformBindGroup);
+
+  pass.drawIndexed(indexData.length);
 
   pass.end();
 

@@ -17,11 +17,11 @@ npm run dev
 
 Open the local URL printed by Vite. Use a current browser with WebGPU support; availability also depends on your OS, GPU, and driver. WebGPU requires a secure context; localhost development is supported. Use the development server instead of opening `index.html` directly.
 
-The canvas currently draws your rectangle with interpolated corner colors over a pink background. Open the browser console with F12 to see your logs and errors.
+The canvas currently draws an indexed rectangle with interpolated corner colors and uniform-controlled scale and offset over a pink background. Open the browser console with F12 to see your logs and errors.
 
-Current exercise: [Exercise 05b: Reuse vertices with an index buffer](lessons/05b-index-buffers.md). Exercises 01 through 05 have been completed and reviewed in code. Continue editing [src/main.js](src/main.js). Vite reloads the page when you save. `npm run build` checks that the project bundles; it does not validate GPU behavior or WGSL shaders.
+Completed through [Lesson 06: Uniforms](lessons/06-uniforms.md), including exercise 05b. Next: [Lesson 07: Animation](lessons/07-animation.md), not started yet. Continue editing [src/main.js](src/main.js). Vite reloads the page when you save. `npm run build` checks that the project bundles; it does not validate GPU behavior or WGSL shaders.
 
-Previous lessons: [Exercise 01: Meet your GPU](lessons/01-meet-your-gpu.md), [Exercise 02: Clear the canvas](lessons/02-clear-the-canvas.md), [Exercise 03: Your first triangle](lessons/03-first-triangle.md), [Exercise 04: Colors between vertices](lessons/04-colors-between-vertices.md), and [Exercise 05: Geometry from JavaScript](lessons/05-vertex-buffers.md).
+Completed lessons: [01: Meet your GPU](lessons/01-meet-your-gpu.md), [02: Clear the canvas](lessons/02-clear-the-canvas.md), [03: Your first triangle](lessons/03-first-triangle.md), [04: Colors between vertices](lessons/04-colors-between-vertices.md), [05: Geometry from JavaScript](lessons/05-vertex-buffers.md), [05b: Index buffers](lessons/05b-index-buffers.md), and [06: Uniforms](lessons/06-uniforms.md).
 
 ## What we're learning
 
@@ -36,9 +36,9 @@ A shader is a program that runs on the GPU. We'll write shaders using WGSL (WebG
 | [03](lessons/03-first-triangle.md) | Draw a triangle and rectangle | WGSL shaders, render pipelines |
 | [04](lessons/04-colors-between-vertices.md) | Color the corners | Interpolation and shader locations |
 | [05](lessons/05-vertex-buffers.md) | Supply geometry from JavaScript | Vertex buffers, byte offsets, stride |
-| [05b](lessons/05b-index-buffers.md) | Reuse four corners | Index buffers; current exercise |
+| [05b](lessons/05b-index-buffers.md) | Reuse four corners | Index buffers |
 | [06](lessons/06-uniforms.md) | Move and resize the rectangle | Uniform buffers and bind groups |
-| [07](lessons/07-animation.md) | Animate it | Frame loop, elapsed time, resource reuse |
+| [07](lessons/07-animation.md) | Animate it | Frame loop, elapsed time, resource reuse; next lesson |
 | [08](lessons/08-matrices.md) | Rotate and combine transforms | Vectors, radians, matrices |
 | [09](lessons/09-cube-and-depth.md) | Draw a 3D cube | Perspective and depth testing |
 | [10](lessons/10-camera.md) | Explore a scene | View matrix and camera controls |
