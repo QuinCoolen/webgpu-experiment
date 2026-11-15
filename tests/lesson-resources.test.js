@@ -10,9 +10,9 @@ import { extractFrustumPlanes, sphereIntersectsFrustum } from '../lessons/suppor
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 
-test('all 20 lesson guides and local Markdown links resolve', async () => {
+test('all 21 lesson guides and local Markdown links resolve', async () => {
   const lessonNames = (await readdir(resolve(root, 'lessons'))).filter((name) => /^\d.*\.md$/.test(name));
-  assert.equal(lessonNames.length, 20);
+  assert.equal(lessonNames.length, 21);
   const files = ['README.md', 'AGENTS.md', 'lessons/support/README.md', ...lessonNames.map((name) => `lessons/${name}`)];
   for (const file of files) {
     const absolute = resolve(root, file);

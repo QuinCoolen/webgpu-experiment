@@ -8,6 +8,8 @@ The **model matrix** places an object in the world. The **view matrix** expresse
 
 Remove lesson 09's translation that pushed the cube to z = -5. Put the cube at the world origin, initially with an identity model matrix. Instead, place the camera at `(0, 2, 5)` looking at `(0, 0, 0)`.
 
+Think of the camera as an object with its own lesson 08 arrows: its right, up, and backward directions, plus its position as the origin. The view matrix is the **inverse** of that camera matrix. It undoes the camera's placement so the world is expressed relative to the camera.
+
 Use `mat4.lookAt(eye, target, [0, 1, 0])` from wgpu-matrix to create the view matrix. This library's `lookAt` returns the view matrix already: do not invert it again. Upload `projection * view * model` to your matrix uniform. Keep depth testing and the frame loop.
 
 ## First experiment: orbit
@@ -53,7 +55,7 @@ Keep FOV 60 degrees, near 0.1, and far 100 for now. A camera pointing straight u
 
 ## Check and troubleshoot
 
-You should be able to circle the cube, approach it, and pass it. Releasing keys or switching windows should stop motion. Resizing the canvas should update projection aspect and recreate the depth texture if pixel dimensions change.
+You should be able to circle the cube, approach it, and pass it. Releasing keys or switching windows should stop motion. The canvas stays 640 by 640 for now; lesson 19 handles resizing.
 
 If the cube moves with the camera, check that only the view matrix uses camera position. If movement depends on refresh rate, use `deltaSeconds`. If looking left turns right, inspect the yaw signs against the supplied forward formula.
 

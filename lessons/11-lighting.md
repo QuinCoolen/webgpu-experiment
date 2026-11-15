@@ -43,7 +43,7 @@ struct Scene {
 
 Allocate **128 bytes**. Use a `Float32Array(32)`, with MVP at float offset 0 and the normal matrix at float offset 16 (byte 64). Recreate the uniform buffer and bind group for the changed layout.
 
-In JavaScript compute `mat4.transpose(mat4.inverse(model))`. Never invert a model scaled to zero. Upload both matrices together each frame. In WGSL, use `scene.mvp` for position, and transform normals with `scene.normalMatrix * vec4f(normal, 0.0)`, taking `.xyz`. Using w = 0 keeps translation out of the direction.
+In JavaScript compute `mat4.transpose(mat4.inverse(model))`. Never invert a model scaled to zero. Upload both matrices together each frame. In WGSL, use `scene.mvp` for position, and transform normals with `scene.normalMatrix * vec4f(normal, 0.0)`, taking `.xyz`. Using w = 0 skips lesson 08's origin arrow, so translation stays out of the direction.
 
 Now rotate the cube and verify the light stays fixed in world space. All later lessons use this 128-byte scene uniform unless explicitly stated otherwise.
 

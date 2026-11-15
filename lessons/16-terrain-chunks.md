@@ -1,6 +1,6 @@
 # Lesson 16: Split terrain into chunks
 
-Prerequisite: [15: Normals](15-terrain-normals.md). Goal: draw nine adjoining terrain pieces without visible gaps.
+Prerequisite: [15b: Objects in the world](15b-objects-in-the-world.md). Goal: draw nine adjoining terrain pieces without visible gaps.
 
 ## One world, several meshes
 
@@ -36,7 +36,9 @@ Keep index format `"uint32"` consistently. A 16-cell chunk should have 289 verti
 3. Loop through the chunk records. For each, bind its vertex buffer and index buffer, then call `drawIndexed(chunk.indexCount)`.
 4. End and submit after the loop.
 
-Vertices are already in world coordinates, so all chunks use an identity model matrix. Upload the same projection-view matrix and identity normal matrix once per frame. Do not translate chunks again in the shader or rewrite one shared uniform repeatedly inside the draw loop: that is unnecessary here and can make every draw see the final uploaded value.
+Vertices are already in world coordinates, so all chunks use an identity model matrix. Upload the same projection-view matrix and identity normal matrix once per frame. Do not translate chunks again in the shader. Do not rewrite one shared uniform inside the draw loop either: as you saw in 15b, every draw would see the last value.
+
+Keep drawing the 15b pillars after the chunks; they still use their own buffers. They span -30 to +30, which is wider than these nine chunks, so some will stand over empty space until lesson 17 loads terrain around the camera. Optionally, move scattering into `createChunk` so that each chunk owns the pillars inside it. Keep the integer spot indices global so the results do not depend on which chunk generates them. Pillars then stream with their chunk, and their buffers must be destroyed when it unloads.
 
 ## Check the seams
 

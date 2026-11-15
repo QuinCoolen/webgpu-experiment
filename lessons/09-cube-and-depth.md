@@ -39,7 +39,7 @@ const projection = mat4.perspective(fov, canvas.width / canvas.height, near, far
 
 For this lesson, place the cube in front of the origin with a translation to `(0, 0, -5)`. This camera convention looks down negative Z. Combine a Y rotation and a small X rotation for the model. Upload `projection * translation * rotation` to the existing matrix uniform.
 
-Perspective makes distant objects appear smaller by producing an appropriate w and letting the GPU divide the position by it. Do not force w back to 1 after matrix multiplication. WebGPU depth after that division uses 0 through 1; the selected math library supplies that convention.
+Perspective makes distant objects appear smaller by producing an appropriate w and letting the GPU divide the position by it. Log `projection` once and read it as lesson 08's arrows: entry 11, the z axis's fourth number, is -1, and entry 15, the origin's fourth number, is 0. So the output w becomes `-z`, the distance in front of the camera. The GPU divides x and y by that w, so farther points land closer to the center. Do not force w back to 1 after matrix multiplication. WebGPU depth after that division uses 0 through 1; the selected math library supplies that convention.
 
 ## Resolve which surface is in front
 

@@ -48,4 +48,4 @@ Explain: why sample both sides of a point? Why is the y component initially 1? W
 
 Reference: [Normal vectors and directional lighting](https://webgpufundamentals.org/webgpu/lessons/webgpu-lighting-directional.html).
 
-Next: [16: Chunks](16-terrain-chunks.md).
+Next: [15b: Objects in the world](15b-objects-in-the-world.md).
